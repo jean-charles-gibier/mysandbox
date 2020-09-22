@@ -1,6 +1,12 @@
 language: python
 python:
   - "3.5"
+
+env: DJANGO_SETTINGS_MODULE="disquaire_project.settings"
+
+services:
+  - postgresql
+
 # command to install dependencies
 install:
   - pip install -r requirements.txt
