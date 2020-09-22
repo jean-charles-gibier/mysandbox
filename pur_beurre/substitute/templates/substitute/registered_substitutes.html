@@ -1,0 +1,93 @@
+{% extends 'pur_beurre/base.html' %}
+{% load urlparams %}
+{% load static %}
+
+{% block content %}
+<section class="page-section" id="registred_substitutes_section">
+
+    <div style="text-align: center">
+        <h1>Produits et substitutions enregistrés :</h1>
+    </div>
+
+    <div class="product container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th style="width: 15%">Visuel origine</th>
+            <th style="width: 30%">Nom origine</th>
+            <th style="width: 15%">Visuel substitut</th>
+            <th style="width: 30%">Nom substitut</th>
+            <th style="width: 10%">Suppression</th>
+          </tr>
+        </thead>
+        <tbody>
+
+    {% for substitut in substituts_enregistres %}
+            <tr>
+                <td style="width: 15%" class="col bg-info">
+                <img style="width: auto; height: 9em;" class="rounded" src="{{substitut.product_origin.image_front_url}}"/>
+                </td>
+                <td style="width: 30%">
+                {{ substitut.product_origin.name }}
+                </td>
+                <td style="width: 15%" class="col bg-info">
+                <img style="width: auto; height: 9em;" class="rounded" src="{{substitut.product_substitute.image_front_url}}"/>
+                </td>
+                <td style="width: 30%">
+                        {{ substitut.product_substitute.name }}
+                </td>
+                <td style="width: 10%">
+                     <a href="{% url 'delete_substituts' %}?{{ request.GET.urlencode }}&origin={{ substitut.product_origin.id }}&sub={{ substitut.product_substitute.id }}"
+                     class="btn btn-primary">
+                    <img src="{% static 'dist/assets/img/noun_Trash.png' %}" alt="DELETE" style="width: auto; height: 3em;"/>
+                    </a>
+                </td>
+            </tr>
+   {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {# Mise en forme de la pagination #}
+    {% if is_paginated %}
+    <div class="container" >
+        <div class="row">
+            <div class="col-12">
+                <div class="mx-auto w-50 text-center">
+                    <div class="pagination" style="display: unset;">
+                           {% if page_obj.has_previous %}
+                               <a href="?page={{ page_obj.previous_page_number }}&{% urlparams request.GET.urlencode 'page' %}">Précédente</a> —
+                           {% endif %}
+                           Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                           {% if page_obj.has_next %}
+                              — <a href="?page={{ page_obj.next_page_number }}&{% urlparams request.GET.urlencode 'page' %}">Suivante</a>
+                           {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+<script type='text/javascript'>
+<!--
+// petite bidouille pour scroller sur le dashboard
+if(window.location.hash != null){
+    var hash = window.location.hash.substring(1);
+    if(hash !== "registred_substitutes_section") {
+        window.location.replace("#");
+        // slice off the remaining '#' in HTML5:
+        if (typeof window.history.replaceState == 'function') {
+            history.replaceState({}, '', window.location.href.slice(0, -1));
+            }
+        location.replace('#registred_substitutes_section');
+        window.location.reload( true );
+        }
+    } else {
+        location.replace('#registred_substitutes_section');
+        window.location.reload( true );
+    }
+    -->
+</script>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'pur_beurre/base.html' %}
+
+{% block title %}Pur Beurre - Inscription{% endblock %}
+<!-- { % load crispy_forms_tags % } -->
+{% load static %}
+{% block content %}
+
+<section class="page-section" id="register_section">
+  <form class="form-signin rounded align-items-center " action="{% url 'register' %}#register_section" method="POST">
+
+    <div class="text-center">
+      <img src="{% static 'dist/assets/img/logo_pur_beurre.png' %}" alt="" width="80" height="80">
+      {% if user.is_authenticated %}
+      <h1 class="pb-2">Informations personnelles</h1>
+      {% else %}
+      <h1 class="pb-2">Inscription</h1>
+        {% if messages %}
+        <div class="text-info">
+            {% for message in messages %}
+          <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="text-center mt-4">
+          <p>Déjà inscrit ?<br>
+            <a href="{% url 'login' %}#login_section" class="btn btn-primary">Connectez-vous</a>
+          </p>
+        </div>
+      {% endif %}
+      </div>
+
+    {% csrf_token %}
+     <div class="container mx-auto">
+
+        <p class="text-info">
+         {{ form.non_field_errors }}
+        </p>
+
+    {% for field in form %}
+      <div class="row">
+        <div class="col-lg-2 offset-md-4" style="display: flex; flex-direction: column; justify-content: center;">
+          <p class="text-info">
+            {% for error in field.errors %}
+              [{{ error }}]
+            {% endfor %}
+          </p>
+          {{ field.label_tag }}
+        </div>
+        <div class="col-lg-2" style="display: flex; flex-direction: column; justify-content: center;">
+          {{ field }}
+        </div>
+          {% if field.help_text %}
+          <div class="col_lg2" style="display: flex; flex-direction: column; justify-content: center;">
+            <p class="help">{{ field.help_text|safe }}</p>
+          </div>
+          {% endif %}
+      </div>
+    {% endfor %}
+    </div>
+
+
+    <div class="text-center">
+      <button class="btn btn-primary mt-4" type="submit">
+        {% if user.is_authenticated %}
+        Modifier le compte
+        {% else %}
+        Créer le compte
+        {% endif %}
+      </button>
+    </div>
+
+  </form>
+</section>
+<script type='text/javascript'>
+// petite bidouille pour scroller sur le dashboard
+if(window.location.hash != null){
+    var hash = window.location.hash.substring(1);
+    if(hash !== "register_section") {
+        window.location.replace("#");
+        // slice off the remaining '#' in HTML5:
+        if (typeof window.history.replaceState == 'function') {
+            history.replaceState({}, '', window.location.href.slice(0, -1));
+            }
+        location.replace('#register_section');
+        window.location.reload( false );
+        }
+    }
+</script>
+{% endblock %}

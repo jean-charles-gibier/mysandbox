@@ -1,0 +1,87 @@
+{% extends 'pur_beurre/base.html' %}
+{% load urlparams getcolor %}
+
+{% block content %}
+<section class="page-section" id="list_substitutes_section">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3" style="display:block; flex-direction:column; justify-content:right; text-align:right">
+                <img style="width: auto; height: 6em;" class="rounded" src="{{image_front_url}}"/>
+            </div>
+            <div class="col-7">
+                <div style="text-align: center">
+                    <h3>Produits pouvant se substituer à <br>
+                        <b>{{ product_name }}, {{ brand_name }}</b>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subtitute container">
+        <div class="container">
+            <div class="row text-center">
+            {% for product in substituts_trouves %}
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="mt-5">
+                        <a href="{% url 'register_substituts' %}?{{ request.GET.urlencode }}&sub={{ product.id }}">
+                            <img style="width: auto; height: 9em;" class="img-fluid rounded" src="{{product.image_front_url}}"/>
+                            <span class="badge-pill badge-nutriscore text-uppercase"
+                                  style="background-color :{%  getcolor product.nutrition_grade %}; color :#000000">
+                                  {{ product.nutrition_grade }}
+                            </span>
+                            <div class="container-textproduct">
+                               <h6><strong>{{ product.name }}</strong></h6>
+                                <button class="btn btn-outline-dark">
+                                <i class="save_subst"><span> Sauvegarder </span></i>
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Mise en forme de la pagination #}
+    {% if is_paginated %}
+    <div class="container" >
+        <div class="row">
+            <div class="col-12">
+                <div class="mx-auto w-50 text-center">
+                    <div class="pagination" style="display: unset;">
+                           {% if page_obj.has_previous %}
+                               <a href="?page={{ page_obj.previous_page_number }}&{% urlparams request.GET.urlencode 'page' %}">Précédente</a> —
+                           {% endif %}
+                           Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                           {% if page_obj.has_next %}
+                              — <a href="?page={{ page_obj.next_page_number }}&{% urlparams request.GET.urlencode 'page' %}">Suivante</a>
+                           {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+<script type='text/javascript'>
+// petite bidouille pour scroller sur le dashboard
+if(window.location.hash != null){
+    var hash = window.location.hash.substring(1);
+    if(hash !== "list_substitutes_section") {
+        window.location.replace("#");
+        // slice off the remaining '#' in HTML5:
+        if (typeof window.history.replaceState == 'function') {
+            history.replaceState({}, '', window.location.href.slice(0, -1));
+            }
+        location.replace('#list_substitutes_section');
+        window.location.reload( false );
+        }
+    }
+</script>
+
+{% endblock %}

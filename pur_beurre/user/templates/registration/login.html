@@ -1,0 +1,78 @@
+{% extends 'pur_beurre/base.html' %}
+
+{% load static %}
+{% block content %}
+
+<section class="page-section" id="login_section">
+  <form class="form-signin rounded align-items-center form-centered" action="{% url 'login' %}" method="POST">
+
+    <div class="text-center">
+      <img src="{% static 'dist/assets/img/logo_pur_beurre.png' %}" alt="" width="80" height="80">
+      <h1 class="pb-2">Login</h1>
+      {% if messages %}
+        {% for message in messages %}
+          <p class="text-danger -{{ message.tags }}">
+            {{ message }}
+          </p>
+        {% endfor %}
+      {% endif %}
+      <div class="text-center mt-4">
+        <p>Non inscrit ?<br>
+          <a href="{% url 'register' %}#register_section" class="btn btn-primary">Créer le compte</a>
+        </p>
+      </div>
+    </div>
+    <br>
+    {% csrf_token %}
+     <!--   { { form.as_table } } -->
+
+    <div class="container mx-auto">
+    {% for field in form %}
+      <div class="row">
+        <div class="col-lg-2 offset-md-4" style="display: flex; flex-direction: column; justify-content: center;">
+          {{ field.errors }}
+          {{ field.label_tag }}
+        </div>
+        <div class="col-lg-2" style="display: flex; flex-direction: column; justify-content: center;">
+          {{ field }}
+        </div>
+          {% if field.help_text %}
+          <div class="col" style="display: flex; flex-direction: column; justify-content: center;">
+            <p class="help">{{ field.help_text|safe }}</p>
+          </div>
+          {% endif %}
+      </div>
+    {% endfor %}
+    </div>
+
+    <div class="text-center">
+     <button class="btn btn-primary mt-4" type="submit">Login</button>
+    </div>
+
+  </form>
+</section>
+
+{% if not messages %}
+<script type='text/javascript'>
+
+// petite bidouille pour scroller sur le dashboard
+if(window.location.hash != null){
+    var hash = window.location.hash.substring(1);
+    if(hash !== "login_section") {
+        window.location.replace("#");
+        // slice off the remaining '#' in HTML5:
+        if (typeof window.history.replaceState == 'function') {
+            history.replaceState({}, '', window.location.href.slice(0, -1));
+            }
+        location.replace('#login_section');
+        window.location.reload( false );
+        }
+    }
+
+</script>
+{% endif %}
+
+{% endblock %}
+
+
+

@@ -1,0 +1,22 @@
+{% extends 'pur_beurre/base.html' %}
+
+{% block nav %}
+
+{% endblock %}
+
+{% block header %}
+<div class="card" style="width: 30rem; margin: 0 auto;  float: none; margin-bottom: 10px;">
+  <div class="card-body">
+    <h5 class="card-title">Cette page n'exsite pas.</h5>
+    <p class="card-text">
+      <p>L'application que vous demandez n'est pas disponible sur ce site.</p>
+      <p>N'hésitez pas à solliciter le webmaster si vous constatez une anomalie !</p>
+    </p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Go home !</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
