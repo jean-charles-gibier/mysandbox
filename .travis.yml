@@ -2,7 +2,10 @@ language: python
 python:
   - "3.6.4"
 
-env: DJANGO_SETTINGS_MODULE="pur_beurre.settings.production",PYTHONPATH=$TRAVIS_BUILD_DIR/pur_beurre,DEPLOY_ENVIRON="PRODUCTION"
+env: 
+  - DJANGO_SETTINGS_MODULE="pur_beurre.settings.production"
+  - PYTHONPATH=$TRAVIS_BUILD_DIR/pur_beurre
+  - DEPLOY_ENVIRON="PRODUCTION"
 
 services:
   - postgresql
