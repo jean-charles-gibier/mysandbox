@@ -16,4 +16,4 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  -  mv pur_beurre _pur_beurre && cd _pur_beurre && python ./manage.py test product.tests.test_models
+  -  mv pur_beurre _pur_beurre && cd _pur_beurre && python ./manage.py test core.tests.test_config
