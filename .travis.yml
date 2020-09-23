@@ -6,6 +6,7 @@ env:
   - DJANGO_SETTINGS_MODULE="pur_beurre.settings.production"
   - PYTHONPATH=$TRAVIS_BUILD_DIR/pur_beurre
   - DEPLOY_ENVIRON="PRODUCTION"
+  - SECRET_KEY = 'FAKE_SECRET_KEY'
 
 services:
   - postgresql
