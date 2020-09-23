@@ -12,4 +12,4 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - export PYTHONPATH=/home/ubuntu/pur_beurre && py.test
+  - export PYTHONPATH=$TRAVIS_BUILD_DIR/pur_beurre && py.test
