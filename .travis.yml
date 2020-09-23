@@ -2,7 +2,11 @@ language: python
 python:
   - "3.6.4"
 
-env: DJANGO_SETTINGS_MODULE="disquaire_project.settings"
+env: 
+  - DJANGO_SETTINGS_MODULE="pur_beurre.settings.production"
+  - PYTHONPATH=$TRAVIS_BUILD_DIR/pur_beurre
+  - DEPLOY_ENVIRON="PRODUCTION"
+  - SECRET_KEY = 'FAKE_SECRET_KEY'
 
 services:
   - postgresql
@@ -12,4 +16,4 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - py.test for Python versions 3.5 and below ...
+  -  mv pur_beurre _pur_beurre && cd _pur_beurre && python ./manage.py test product.tests.test_models
